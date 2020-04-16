@@ -19,6 +19,10 @@ var roleBuilder = {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
+            else{
+                creep.moveTo(creep.room.controller);
+                creep.upgradeController(creep.room.controller)
+            }
         }
         else {
             var sources = creep.room.find(FIND_SOURCES);
