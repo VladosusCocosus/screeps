@@ -50,7 +50,7 @@ module.exports.loop = function () {
             roleUpgrader.run(creep, 1);
         }
         if(creep.memory.role == 'builder'){
-            roleBuilder.run(creep, 1)
+            roleHarvester.run(creep, 1)
         }
     }
 }
