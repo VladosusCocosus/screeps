@@ -9,6 +9,13 @@ let managerRole = {
         let upgrader = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
         console.log('Upgrader: ' + upgrader.length);
 
+        console.log();
+
+        // var targets = builder.room.find(FIND_CONSTRUCTION_SITES);
+        // if(!targets.length && targets.length == 0) {
+        //     builer.suicide()
+        // }
+
         if (harvesters.length / 2 > builder.length) {
             let newName = 'Builder' + Game.time;
             console.log('Spawning new builder: ' + newName);
