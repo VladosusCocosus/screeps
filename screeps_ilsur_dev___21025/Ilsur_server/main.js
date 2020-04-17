@@ -10,7 +10,6 @@ module.exports.loop = function () {
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
         }
     }
 
@@ -38,12 +37,10 @@ module.exports.loop = function () {
 
     for(let i = 0; i < harvesters.length; i++){
          var creep = Game.creeps[harvesters[i]];
-         if(i < count) {
+         if(i < count){
              roleHarvester.run(creep, 0);
-             console.log('0')
          }else{
              roleHarvester.run(creep, 1);
-             console.log('1')
         }
     }
 

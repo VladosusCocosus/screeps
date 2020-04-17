@@ -30,9 +30,7 @@ var roleBuilder = {
                 creep.moveTo(sources[id], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
         }
-        console.log(creep.memory.work)
     }
-
 };
 
 module.exports = roleBuilder;

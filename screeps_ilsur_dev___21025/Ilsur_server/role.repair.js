@@ -8,6 +8,7 @@ var roleRepair = {
             creep.memory.repair = false;
             creep.say('🔄 harvest');
         }
+
         if(!creep.memory.repair && creep.store.getFreeCapacity() == 0) {
             creep.memory.repair = true;
             creep.say('🚧 build');
@@ -22,8 +23,11 @@ var roleRepair = {
         }
         else {
             let tower = Game.getObjectById('bc8b829f45d83cb');
-            if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE && tower.store.getFreeCapacity() != 0) {
                 creep.moveTo(tower, {visualizePathStyle: {stroke: '#ffffff'}});
+            }else{
+                let roleHarvester = require('role.harvester');
+                roleHarvester.run(creep, id)
             }
         }
     }
