@@ -2,9 +2,10 @@ let roleHarvester = require('role.harvester');
 let roleUpgrader = require('role.upgrader');
 let roleBuilder = require('role.builder');
 let managerRole = require('role.manager');
+let roleRepair = require('role.repair');
 
 module.exports.loop = function () {
-    // let harvesters = [];
+
 
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -12,6 +13,8 @@ module.exports.loop = function () {
             console.log('Clearing non-existing creep memory:', name);
         }
     }
+
+
 
     managerRole.run();
 
@@ -23,30 +26,47 @@ module.exports.loop = function () {
             Game.spawns['Spawn'].pos.y,
             {align: 'left', opacity: 0.8});
     }
+    let harvesters = [];
+    for(let name in Game.creeps){
+        if(Game.creeps[name].memory.role === 'harvester'){
 
-    // for(let name in Game.creeps){
-    //     if(Game.creeps[name].memory.role === 'harvester'){
-    //         harvesters.push(name)
-    //     }
-    // }
+            harvesters.push(name)
+        }
+    }
 
-    // let count = Math.round(harvesters.length / 2);
-    //
-    // for(let i = 0; i < harvesters.length; i++){
-    //      var creep = Game.creeps[harvesters[i]];
-    //      if(i <= count) {
-    //          roleBuilder.run(creep, 1);
-    //      }else{
-    //          roleBuilder.run(creep, 0)
-    //     }
-    // }
-    let suicid;
+    let count = Math.round(harvesters.length / 2);
 
+    for(let i = 0; i < harvesters.length; i++){
+         var creep = Game.creeps[harvesters[i]];
+         if(i < count) {
+             roleHarvester.run(creep, 0);
+             console.log('0')
+         }else{
+             roleHarvester.run(creep, 1);
+             console.log('1')
+        }
+    }
+
+
+
+    var tower = Game.getObjectById('bc8b829f45d83cb');
+    if(tower) {
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if(closestHostile) {
+            tower.attack(closestHostile);
+        }
+        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => structure.hits < structure.hitsMax
+        });
+        if(closestDamagedStructure) {
+            tower.repair(closestDamagedStructure);
+        }
+    }
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester'){
-            roleHarvester.run(creep, 0)
+        if(creep.memory.role == 'repair'){
+            roleRepair.run(creep, 0)
         }
         if(creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep, 1);
